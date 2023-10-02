@@ -2,18 +2,25 @@ import { Text, StyleSheet, FlatList, View } from "react-native";
 // import React from "react"
 import { useGlobalSearchParams, useLocalSearchParams } from "expo-router";
 import users from "../../assets/data/users";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import UserProfileHeader from "../../src/components/UserProfileHeader";
 import posts from "../../assets/data/posts";
 import Post from "../../src/components/Post";
 import { FontAwesome } from '@expo/vector-icons';
+import { DataStore } from "aws-amplify/lib-esm";
+import { User } from "../../src/models";
 
 const ProfilePage = () => {
+    const [user, setUser] = useState();
     const [isSubscribed, setIsSubscribed] = useState(false);
 
     const { id } = useLocalSearchParams();
 
-    const user = users.find((u) => u.id == id);
+    useEffect(() => {
+        DataStore.query(User, id).then(setUser);
+    }, [id])
+
+//    const user = users.find((u) => u.id == id);
 
     if (!user) {
         return <Text onPress={() => router.back()}>User not found! Go back</Text>;
