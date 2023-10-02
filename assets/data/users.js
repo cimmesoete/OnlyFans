@@ -7,7 +7,7 @@ export default [
       'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/elon.png',
     name: 'Elon',
     handle: 'elon',
-    bio: 'hello',
+    bio: 'OF is a subscription social platform revolutionizing creator and fan relationships.',
     subscriptionPrice: 0,
   },
   {
