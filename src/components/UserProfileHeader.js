@@ -24,7 +24,7 @@ const UserProfileHeader = ({ user, isSubscribed, setIsSubscribed }) => {
                     <Ionicons 
                         onPress={() => router.back()}
                         name="arrow-back" 
-                        size={24} 
+                        size={28} 
                         color="white" 
                         style={{ marginRight: 10 }}
                     />
