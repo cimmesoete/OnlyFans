@@ -45,7 +45,7 @@ export default function RootLayout() {
     });
 
     return () => {
-      // cleanup function
+      // cleanup function, prevent memory leaks
       removeListener();
     };
   }, []);
