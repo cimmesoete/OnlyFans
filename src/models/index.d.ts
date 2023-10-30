@@ -54,8 +54,10 @@ type EagerPost = {
   readonly id: string;
   readonly text?: string | null;
   readonly image?: string | null;
-  readonly likes: number;
+  readonly imageType?: string | null;
+  readonly imageAddress?: string | null;
   readonly userID: string;
+  readonly likes: number;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -68,8 +70,10 @@ type LazyPost = {
   readonly id: string;
   readonly text?: string | null;
   readonly image?: string | null;
-  readonly likes: number;
+  readonly imageType?: string | null;
+  readonly imageAddress?: string | null;
   readonly userID: string;
+  readonly likes: number;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

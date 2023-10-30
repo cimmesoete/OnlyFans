@@ -10,10 +10,18 @@ import {
 // import React from "react";
 import { useRouter } from "expo-router";
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { DataStore, Storage } from 'aws-amplify';
+// import { User } from '../models';
 
 const UserProfileHeader = ({ user, isSubscribed, setIsSubscribed }) => {
     const router = useRouter();
+    const [avatarUri, setAvatarUri] = useState();
+
+    
+    useEffect(() => {
+        Storage.get(user.avatar).then(setAvatarUri);
+      }, []);
 
     return (
         <View>
@@ -55,7 +63,7 @@ const UserProfileHeader = ({ user, isSubscribed, setIsSubscribed }) => {
                         marginTop: -50, 
                     }}
                 >
-                    <Image src={user.avatar} style={styles.userImage} />
+                    <Image src={avatarUri} style={styles.userImage} />
                     <FontAwesome name="share-square-o" size={24} color="royalblue" />
                 </View>
 
@@ -64,6 +72,8 @@ const UserProfileHeader = ({ user, isSubscribed, setIsSubscribed }) => {
                 <Text style={{ lineHeight: 20 }} numberOfLines={5}>
                     {user.bio}
                 </Text>
+
+
 
                 <Text style={{ color: 'gray', marginTop: 20, fontWeight: 'bold' }}> SUBSCRIPTION </Text>
 

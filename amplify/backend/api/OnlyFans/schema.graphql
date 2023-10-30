@@ -13,8 +13,10 @@ type Post @model @auth(rules: [{allow: public}]) {
   id: ID!
   text: String
   image: String
-  likes: Int!
+  imageType: String
+  imageAddress: String
   userID: ID! @index(name: "byUser")
+  likes: Int!
 }
 
 type UserOld @model @auth(rules: [{allow: public}]) {

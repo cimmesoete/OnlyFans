@@ -6,6 +6,7 @@ import { useAuthenticator } from "@aws-amplify/ui-react-native";
 import { useEffect, useState } from "react";
 import { DataStore } from "aws-amplify/lib-esm";
 import { User } from "../src/models";
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Page() {
   const [users, setUsers] = useState([]);
@@ -19,8 +20,24 @@ export default function Page() {
 
   return (
     <View style={styles.container}>
-      <Link href={'/newPost'}>New post</Link>
-      <Text onPress={() => signOut()}>Sign out</Text>
+      <Link style={{ fontWeight: '500', fontSize: 20 }} href={'/newPost'}>
+        New post
+        <Ionicons
+          name="arrow-forward"
+          size={20}
+          color="black"
+          style={{ marginRight: 10 }}
+        />
+      </Link>
+      <Text style={{ fontWeight: '500', fontSize: 20 }} onPress={() => signOut()}>
+        Sign out
+        <Ionicons
+          name="arrow-forward"
+          size={20}
+          color="black"
+          style={{ marginRight: 10 }}
+        />
+      </Text>
       <FlatList
         data={users}
         renderItem={({ item }) => <UserCard user={item} />}
@@ -34,6 +51,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    paddingTop: 75,
+    paddingTop: 15,
   }, 
 });

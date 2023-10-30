@@ -1,14 +1,26 @@
 import { StyleSheet, Text, View, Image, ImageBackground, Pressable } from "react-native";
 import { Link } from "expo-router";
+import { useEffect, useState } from 'react';
+import { Storage } from 'aws-amplify';
+
+
 
 export default function UserCard({ user }) {
+
+  const [avatarUri, setAvatarUri] = useState();
+
+  useEffect(() => {
+    Storage.get(user.avatar).then(setAvatarUri);
+  }, []);
+
   return (
-    <Link href={`/user/${user.id}`} asChild>
+
+     <Link href={`/user/${user.id}`} asChild>
       <Pressable>
         <ImageBackground source={{ uri: user.coverImage }} style={styles.userCard} >
           <View style={styles.overlay} />
           {/* Image */}
-          <Image src={user.avatar} style={styles.userImage} />
+          <Image src={avatarUri} style={styles.userImage} />
 
           {/* Name & handle */}
           <View>

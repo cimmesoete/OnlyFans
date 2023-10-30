@@ -134,17 +134,31 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "likes": {
-                    "name": "likes",
+                "imageType": {
+                    "name": "imageType",
                     "isArray": false,
-                    "type": "Int",
-                    "isRequired": true,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "imageAddress": {
+                    "name": "imageAddress",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "userID": {
                     "name": "userID",
                     "isArray": false,
                     "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "likes": {
+                    "name": "likes",
+                    "isArray": false,
+                    "type": "Int",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -297,5 +311,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "87fafa852e1ca601eab9aae75ba282a6"
+    "version": "e13d56d779eba93a6c16cf51c2646e91"
 };
