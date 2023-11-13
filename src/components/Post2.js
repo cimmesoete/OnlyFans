@@ -91,27 +91,19 @@ const Post = ({ post }) => {
       <Text style={{ margin: 10, lineHeight: 18 }}>{post.text}</Text>
 
 
-      {(imageType == srtImage) && (
-         <Image src={imageUri} style={{ width: '100%', aspectRatio: 1 }} />
-      )}
-
-      {(imageType == "video") && ( 
-        <Video        
-          ref={videoMovie}
-          style={styles.video}
-          source={require('./treadmill.mp4')}
-        />
-      //  console.log(imageType)
-      )}
-
-      {(imageType == srtVolCap) && ( <Pressable onPress={() => VolCapture(post.imageAddress)}>
-          <View style={{ alignItems: 'center', }}>
-            <Image src={imageUri} style={styles.circle}/>
-            <Text style={styles.textContainer}>Bring them home</Text>
-          </View>
-        </Pressable>
-      )}
-
+      if (imageType = srtVideo) {
+        <Video ref={videoMovie} style={styles.video} source={{imageUri}} />  
+        } else if (imageType = srtImage) { 
+            <Image src={imageUri} style={{ width: '100%', aspectRatio: 1 }} />  
+        } else if (imageType = srtVolCap) { 
+            <Pressable onPress={() => VolCapture(post.imageAddress)}>
+                <View style={{ alignItems: 'center', }}>
+                    <Image src={imageUri} style={styles.circle}/>
+                    <Text style={styles.textContainer}>Bring them home</Text>
+                </View>
+            </Pressable> 
+        }
+            
 
       <View style={{ margin: 10, flexDirection: 'row' }}>
         <Pressable onPress={handleLike}>
