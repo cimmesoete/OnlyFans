@@ -1,11 +1,11 @@
 import { View, Text, Image, Pressable, StyleSheet, Button } from 'react-native';
-import { Video } from 'expo-av';
-import { StatusBar } from 'expo-status-bar';
+import { Video, ResizeMode } from 'expo-av';
+// import { StatusBar } from 'expo-status-bar';
 import { Entypo, AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import { DataStore, Storage } from 'aws-amplify';
 import { User,Post as PostTable } from '../models';
-import React from 'react';
+import * as React from 'react';
 import VolCapture from "./VolCapClick";
 // import ImageWithVideo from './VideoDisplay2';
 // import LikeButton from "./IncrementLikes";
@@ -20,7 +20,7 @@ const Post = ({ post }) => {
   const imageType = post.imageType;
   const [likes, setLikes] = useState(post.likes || 0);
   const videoMovie = React.useRef(null);
-  // const [status, setStatus] = React.useState({});
+  const [status, setStatus] = React.useState({});
   // const imageAddress = post.imageAddress;
 
   useEffect(() => {
@@ -95,11 +95,15 @@ const Post = ({ post }) => {
          <Image src={imageUri} style={{ width: '100%', aspectRatio: 1 }} />
       )}
 
-      {(imageType == "video") && ( 
+      {(imageType == srtVideo) && ( 
         <Video        
           ref={videoMovie}
           style={styles.video}
-          source={require('./treadmill.mp4')}
+          source={{uri: imageUri}}
+          useNativeControls
+          resizeMode={ResizeMode.CONTAIN}
+          isLooping
+          onPlaybackStatusUpdate={status => setStatus(() => status)}
         />
       //  console.log(imageType)
       )}
@@ -178,8 +182,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   video: {
-    flex: 1,
-    alignSelf: 'stretch'
+  //  flex: 1,
+  //  alignSelf: 'stretch',
+    width: '100%',
+    height: 350,
   },
 });
 

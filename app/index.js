@@ -1,5 +1,5 @@
 import { StyleSheet, View, FlatList, Text } from "react-native";
-import users from "../assets/data/users";
+// import users from "../assets/data/users";
 import UserCard from "../src/components/UserCard";
 import { Link } from "expo-router";
 import { useAuthenticator } from "@aws-amplify/ui-react-native";

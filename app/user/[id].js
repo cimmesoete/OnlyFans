@@ -1,7 +1,7 @@
 import { Text, StyleSheet, FlatList, View } from "react-native";
 // import React from "react"
 import { useGlobalSearchParams, useLocalSearchParams } from "expo-router";
-import users from "../../assets/data/users";
+// import users from "../../assets/data/users";
 import { useEffect, useState } from 'react';
 import UserProfileHeader from "../../src/components/UserProfileHeader";
 // import posts from "../../assets/data/posts";
