@@ -6,7 +6,7 @@ const appUrlHeader = 'https://dne.app.link/';
 
 const VolCapture = (appUrlAddressPass) => {
     const appUrl = appUrlHeader + appUrlAddressPass; // Replace with the URL scheme of the external app
-
+    console.log(appUrl);
     try {
       const supported = Linking.canOpenURL(appUrl);
 

@@ -8,6 +8,9 @@
       "expo-router"
     ],
     "name": "CabanaClub",
-    "slug": "CabanaClub"
+    "slug": "CabanaClub",
+    "android": {
+      "package": "com.anonymous.CabanaClub"
+    }
   }
 }

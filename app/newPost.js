@@ -21,7 +21,7 @@ import {
   
   const NewPost = () => {
     const [text, setText] = useState('');
-    const [image, setImage] = useState('');
+    const [selectedImage, setImage] = useState('');
     const [typeOfImage, setImageType] = useState('');
   
     const { user } = useAuthenticator();
@@ -29,9 +29,10 @@ import {
     const router = useRouter();
   
     const onPost = async () => {
-      console.warn('Post: ', text);
+      // console.warn('Post: ', text);
       const imageKey = await uploadImage();
-  
+
+      // post entry to POST table in database
       await DataStore.save(
         new Post({ text, likes: 0, userID: user.attributes.sub, image: imageKey, imageType: typeOfImage })
       );
@@ -39,21 +40,24 @@ import {
       setText('');
       setImage('');
       setImageType('');
+      <Text style={{ fontWeight: '500', marginHorizontal: 10 }}> New post added </Text>;
     };
-  
+
+// Upload image or video asset to the s3 storage container    
     async function uploadImage() {
       try {
-        const response = await fetch(image);
+        let fileKey;
+        const response = await fetch(selectedImage);
         const blob = await response.blob();
-        if (typeOfImage=imageStr) {
-          const fileKey = `${Crypto.randomUUID()}.png`;
-          await Storage.put(fileKey, blob, {
-            contentType: 'image/jpeg', // contentType is optional
-          });
-        } ;
+        if (typeOfImage==imageStr) {
+          fileKey = `${Crypto.randomUUID()}.png`;
+        } else if (typeOfImage==videoStr) {
+          fileKey = `${Crypto.randomUUID()}.mp4`;
+        };
+        await Storage.put(fileKey, blob,);
         return fileKey;
       } catch (err) {
-        console.log('Error uploading file:', err);
+        console.log('Yup, Error uploading file:', err, "filekey:", fileKey);
       }
     }
   
@@ -65,9 +69,7 @@ import {
         aspect: [4, 3],
         quality: 1,
       });
-  
-      console.log(result);
-  
+
       if (!result.canceled) {
         setImage(result.assets[0].uri);
         setImageType(imageStr);
@@ -82,8 +84,6 @@ import {
         aspect: [4, 3],
         quality: 1,
       });
-  
-      console.log(result);
   
       if (!result.canceled) {
         setImage(result.assets[0].uri);
@@ -119,7 +119,7 @@ import {
           <Feather onPress={pickVideo} name="video" size={24} color="gray" />
         </View>
   
-        {image && <Image src={image} style={{ width: '100%', aspectRatio: 1 }} />}
+        {selectedImage && <Image src={selectedImage} style={{ width: '100%', aspectRatio: 1 }} />}
   
         <Button title="Post" onPress={onPost} />
       </SafeAreaView>

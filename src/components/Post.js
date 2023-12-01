@@ -4,7 +4,7 @@ import { Video, ResizeMode } from 'expo-av';
 import { Entypo, AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import { DataStore, Storage } from 'aws-amplify';
-import { User,Post as PostTable } from '../models';
+import { User, Post as PostTable } from '../models';
 import * as React from 'react';
 import VolCapture from "./VolCapClick";
 // import ImageWithVideo from './VideoDisplay2';
@@ -25,7 +25,7 @@ const Post = ({ post }) => {
 
   useEffect(() => {
     DataStore.query(User, post.userID, 
-    //  { sort: (s) => s.updatedAt(SortDirection.DESCENDING) }   NEED TO ADDRESS THIS
+//      { sort: (s) => s.updatedAt(SortDirection.DESCENDING) }   //NEED TO ADDRESS THIS
     ).then(setUser);
   }, []);
 
@@ -38,7 +38,6 @@ const Post = ({ post }) => {
   useEffect(() => {
     Storage.get(user?.avatar).then(setAvatarUri);
   });
-
 
                                         // Increment likes
   const handleLike = async () => {
@@ -111,7 +110,7 @@ const Post = ({ post }) => {
       {(imageType == srtVolCap) && ( <Pressable onPress={() => VolCapture(post.imageAddress)}>
           <View style={{ alignItems: 'center', }}>
             <Image src={imageUri} style={styles.circle}/>
-            <Text style={styles.textContainer}>Bring them home</Text>
+            <Text style={styles.textContainer}>Check this out</Text>
           </View>
         </Pressable>
       )}

@@ -29,6 +29,15 @@ export default function Page() {
           style={{ marginRight: 10 }}
         />
       </Link>
+      <Link style={{ fontWeight: '500', fontSize: 20 }} href={'/ProfileUpdateScreen2'}>
+        My Bio
+        <Ionicons
+          name="arrow-forward"
+          size={20}
+          color="black"
+          style={{ marginRight: 10 }}
+        />
+      </Link>
       <Text style={{ fontWeight: '500', fontSize: 20 }} onPress={() => signOut()}>
         Sign out
         <Ionicons
