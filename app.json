@@ -9,8 +9,22 @@
     ],
     "name": "CabanaClub",
     "slug": "CabanaClub",
+    "icon": "./assets/data/CabanaClub2.png",
+    "version": "1.0.8",
     "android": {
-      "package": "com.anonymous.CabanaClub"
+      "package": "com.anonymous.cabanaclub"
+    },
+    "ios": {
+      "bundleIdentifier": "com.anonymous.CabanaClub",
+      "buildNumber": "1.0.8"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "58cbdb39-29d4-4de7-b63f-9e3bb313543c"
+      }
     }
   }
 }
