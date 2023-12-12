@@ -5,18 +5,19 @@
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-image-picker"
     ],
     "name": "CabanaClub",
     "slug": "CabanaClub",
     "icon": "./assets/data/CabanaClub2.png",
-    "version": "1.0.8",
+    "version": "1.0.10",
     "android": {
       "package": "com.anonymous.cabanaclub"
     },
     "ios": {
       "bundleIdentifier": "com.anonymous.CabanaClub",
-      "buildNumber": "1.0.8"
+      "buildNumber": "1.0.10"
     },
     "extra": {
       "router": {

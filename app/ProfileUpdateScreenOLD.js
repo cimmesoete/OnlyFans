@@ -50,11 +50,11 @@ const ProfileUpdateScreen = () => {
       aspect: [4, 3],
     });
 
-    if (!result.cancelled) {
+    if (!result.canceled) {
       if (type === 'avatar') {
-        setAvatar(result.uri);
+        setAvatar(result.assets[0].uri);
       } else if (type === 'coverImage') {
-        setCoverImage(result.uri);
+        setCoverImage(result.assets[0].uri);
       }
     }
   };

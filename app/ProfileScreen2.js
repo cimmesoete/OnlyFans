@@ -2,10 +2,13 @@
 // eliminate type errors
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, Image } from 'react-native';
+import { View, Text, TextInput, SafeAreaView, Button, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Storage, Auth, DataStore } from 'aws-amplify';
 import { UserData } from '../src/models';
+import { useAuthenticator } from '@aws-amplify/ui-react-native';
+import { useRouter } from 'expo-router';
+import * as Crypto from 'expo-crypto';
 
 const ProfileScreen = () => {
   const [avatar, setAvatar] = useState(null);

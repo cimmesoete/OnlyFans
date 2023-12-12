@@ -38,7 +38,7 @@ export default function Page() {
           style={{ marginRight: 10 }}
         />
       </Link>
-      <Link style={{ fontWeight: '500', fontSize: 20 }} href={'/ProfileUpdateScreen'}>
+      <Link style={{ fontWeight: '500', fontSize: 20 }} href={'/ProfileScreen'}>
         My Bio
         <Ionicons
           name="arrow-forward"

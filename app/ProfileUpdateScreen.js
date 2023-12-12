@@ -58,8 +58,8 @@ function ProfileUpdateScreen({route}) {
       quality: 1
     });
 
-    if (!result.cancelled) {
-      let image = await Storage.put(result.uri);
+    if (!result.canceled) {
+      let image = await Storage.put(result.assets[0].uri);
       setAvatar(image.key);
     }
   }

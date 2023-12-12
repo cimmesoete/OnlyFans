@@ -45,7 +45,7 @@ const ProfileUpdateScreen = () => {
     });
 
     if (!result.canceled) {
-      setter(result.uri);
+      setter(result.assets[0].uri);
     }
   };
 
