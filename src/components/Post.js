@@ -39,6 +39,15 @@ const Post = ({ post }) => {
     Storage.get(user?.avatar).then(setAvatarUri);
   });
 
+  function calculateTimeSinceUpdated(updatedAt) {
+    const now = new Date();
+    const updatedDate = new Date(updatedAt);
+    const diff = now.getTime() - updatedDate.getTime();
+    const diffDays = Math.round(diff / (1000 * 60 * 60 * 24));
+    return diffDays;
+  
+  };
+
                                         // Increment likes
   const handleLike = async () => {
     const updatedLikes = likes + 1;
@@ -83,7 +92,7 @@ const Post = ({ post }) => {
             alignItems: 'center',
           }}
         >
-          <Text style={{ marginRight: 5, color: 'gray' }}>3 hours ago</Text>
+          <Text style={{ marginRight: 5, color: 'gray' }}>{calculateTimeSinceUpdated(post.createdAt)} days ago</Text>
           <Entypo name="dots-three-horizontal" size={18} color="gray" />
         </View>
       </View>

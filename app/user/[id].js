@@ -23,7 +23,7 @@ const ProfilePage = () => {
 //  sort by updatedAt date, set constant posts to that array
     useEffect(() => {
         DataStore.query(User, id).then(setUser);
-        DataStore.query(PostModel, (post) => post.userID.eq(id), { sort: (s) => s.updatedAt(SortDirection.DESCENDING) }
+        DataStore.query(PostModel, (post) => post.userID.eq(id), { sort: (s) => s.createdAt(SortDirection.DESCENDING) }
         ).then(setPosts);
     }, [id]);
 

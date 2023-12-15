@@ -44,12 +44,6 @@ const ProfileScreenUpdater = () => {
 
 /*  async function getUserProfile(userId){
     const userProfile = await DataStore.query(User, userId);
-*/
-
-
-
-
-/*  
     return userProfile;
   };
 */
@@ -63,22 +57,11 @@ const ProfileScreenUpdater = () => {
   }, []);
 
 
-
 //  console.log('function getUserProfile user profile name:', thisUser?.name);
 //  console.log('function getUserProfile background image:', backgroundImageUri);
 //  console.log('function getUserProfile user profile bio:', bio);
 
 
-  // console.log('bio:', usersProfile);
-  // console.log('user name:', user.attributes.name);
-  /*
-  useEffect(() => {
-    // Get user ID after authentication
-    Auth.currentAuthenticatedUser()
-      .then(user => setUserId(user.attributes.sub))
-      .catch(error => console.error('Error getting user ID:', error));
-  }, []);
-*/
   /*
   useEffect(() => {
     // Get user profile data from DataStore
