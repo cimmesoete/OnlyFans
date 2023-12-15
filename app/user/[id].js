@@ -15,25 +15,21 @@ const ProfilePage = () => {
     const [user, setUser] = useState();
     const [posts, setPosts] = useState([]);
     const [isSubscribed, setIsSubscribed] = useState(true);
-
     const { id } = useLocalSearchParams();
 
 //  query the table User for user ID, set constant user
 //  query the table Post (here called PostModel to avoid conflict) to collect posts matching user,     
 //  sort by updatedAt date, set constant posts to that array
+
     useEffect(() => {
         DataStore.query(User, id).then(setUser);
         DataStore.query(PostModel, (post) => post.userID.eq(id), { sort: (s) => s.createdAt(SortDirection.DESCENDING) }
         ).then(setPosts);
     }, [id]);
 
-//    const user = users.find((u) => u.id == id);
-
     if (!user) {
         return <Text onPress={() => router.back()}>User not found! Go back</Text>;
     }
-
-    // console.log(JSON.stringify(user, null, 2));
 
     if (!isSubscribed) {
         return (

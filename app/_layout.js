@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Image } from "react-native";
 import { Stack } from 'expo-router';
 import { API, Amplify, DataStore, Hub } from 'aws-amplify';
 import awsconfig from '../src/aws-exports';
@@ -11,7 +11,8 @@ import { useEffect } from 'react';
 Amplify.configure(awsconfig);
 
 const CreateUserMutation = `
-mutation createUser($input: CreateUserInput!) {
+mutation createUser($input: CreateUserInput!, {onError: (err) => {
+  setError(err);}) {
   createUser(input: $input) {
     id
     name
@@ -19,15 +20,21 @@ mutation createUser($input: CreateUserInput!) {
     bio
     subscriptionPrice
   }
-}
-`;
+}`;
 
-<View>
-    <Text style={{ fontSize: 40 }}>Bring your favorite creators home</Text>;
-  </View>;
+function LogoTitle() {
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 50 }}>
+      <Image
+        style={{ width: 65, height: 45, marginRight: 8, borderColor: 'white', borderWidth: 1 }}
+        source={require('../assets/data/CabanaClub2.png')}
+      />
+      <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Cabana Club</Text>
+    </View>
+  );
+};
 
 export default function RootLayout() {
-  
   <View>
     <Text style={{ fontSize: 40 }}>Bring your favorite creators home</Text>
   </View>
@@ -41,14 +48,8 @@ export default function RootLayout() {
         const userInfo = data.payload.data.attributes;
         <View>
           <Text style={{ fontSize: 40 }}>Bring your favorite creators home3</Text>
-        </View>
+        </View>;
         
-
-        console.log(JSON.stringify(userInfo, null, 2));
-
-        <View>
-          <Text style={{ fontSize: 40 }}>Bring your favorite creators home3</Text>
-        </View>
 
         // DataStore.save(new User({ id: userInfo.sub, name: userInfo.name }));
 
@@ -82,12 +83,14 @@ export default function RootLayout() {
       <Authenticator>
         <Stack screenOptions={{ 
           // headerShown: false 
-          title: 'Cabana',
+          // title: 'Cabana',
           headerStyle: { backgroundColor: '#f4511e' },
           headerTintColor: '#fff',
           headerTitleStyle: {
             fontWeight: 'bold',
-          }
+          },
+          // headerRight: 'Cabana Club',
+          headerTitle: props => <LogoTitle {...props} />
         }} />
       </Authenticator>
     </Authenticator.Provider>

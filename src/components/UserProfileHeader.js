@@ -88,7 +88,6 @@ const UserProfileHeader = ({ user, isSubscribed, setIsSubscribed }) => {
                         {backgroundColor: isSubscribed ? 'white' : 'royalblue' },
                     ]}
                 >
-
                     <Text style={[styles.buttonText, {color: isSubscribed ? 'royalblue' : 'white'}]}> 
                         {isSubscribed ? 'SUBSCRIBED' : 'SUBSCRIBE'} 
                     </Text>
@@ -96,6 +95,7 @@ const UserProfileHeader = ({ user, isSubscribed, setIsSubscribed }) => {
                         {user.subscriptionPrice == 0 
                             ? 'FOR FREE' 
                             : `$${user.subscriptionPrice.toFixed(2)} / month`} 
+                            
                     </Text>
                 </Pressable>
             </View>

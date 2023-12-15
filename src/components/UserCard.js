@@ -3,10 +3,7 @@ import { Link } from "expo-router";
 import { useEffect, useState } from 'react';
 import { Storage } from 'aws-amplify';
 
-
-
 export default function UserCard({ user }) {
-
   const [avatarUri, setAvatarUri] = useState();
   const [backgroundImageUri, setbackgroundImageUri] = useState();
 
@@ -18,13 +15,10 @@ export default function UserCard({ user }) {
     Storage.get(user.coverImage).then(setbackgroundImageUri);
   }, []);
 
-//    console.log('function UserCard background image:', backgroundImageUri);
-
   return (
-
      <Link href={`/user/${user.id}`} asChild>
       <Pressable>
-        <ImageBackground src={{ uri: backgroundImageUri }} style={styles.userCard} >
+        <ImageBackground source={{ uri: backgroundImageUri }} style={styles.userCard} >
           <View style={styles.overlay} />
           {/* Image */}
           <Image src={avatarUri} style={styles.userImage} />
@@ -33,7 +27,6 @@ export default function UserCard({ user }) {
           <View>
             <Text style={{ color: 'white', fontSize: 22, fontWeight: '500' }}>{user.name}</Text>
             <Text style={{ color: 'white' }}>@{user.handle}</Text>
-
           </View>
         </ImageBackground>
       </Pressable>
@@ -47,7 +40,6 @@ const styles = StyleSheet.create({
     padding: 10, 
     flexDirection: 'row',
     alignItems: 'flex-end',
-
     borderRadius: 10,
     overflow: 'hidden',
     marginVertical: 5,

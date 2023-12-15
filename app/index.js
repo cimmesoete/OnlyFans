@@ -9,7 +9,7 @@ import { User } from "../src/models";
 import { Ionicons } from '@expo/vector-icons';
 // import { ProfileScreenUpdater } from "./ProfileScreen2";
 import { useNavigation } from "@react-navigation/native";
-
+import DropdownButton from "./DropdownButton";
 //
 
 
@@ -20,14 +20,36 @@ export default function Page() {
   const {signOut} = useAuthenticator();
   const navigation = useNavigation();
 
-//  console.log('User:', user);
-
   useEffect(() => {
     // fetch users
     DataStore.query(User).then(setUsers);
   }, []);
 
+  const handleDropdownSelect = (selectedItem) => {
+    // Implement logic based on the selected item
+    switch (selectedItem) {
+      case 'newPost':
+        // Handle "New Post" action
+        <Link style={{ fontWeight: '500', fontSize: 20 }} href={'/newPost'}/>;
+        break;
+      case 'bio':
+        // Handle "Bio" action
+        <Link style={{ fontWeight: '500', fontSize: 20 }} href={'/ProfileScreen3'}/>;
+        break;
+      case 'signOut':
+        // Handle "Sign Out" action
+        <Text style={{ fontWeight: '500', fontSize: 20 }} onPress={() => signOut()}/>;
+        break;
+      default:
+        break;
+    }
+  };
+//        <DropdownButton onSelect={handleDropdownSelect} />  // this goes in return in the first View box
+
   return (
+    <View style={{ flexDirection: 'row', justifyContent: 'flex-end', padding: 0 }}>
+
+
     <View style={styles.container}>
       <Link style={{ fontWeight: '500', fontSize: 20 }} href={'/newPost'}>
         New post
@@ -38,17 +60,9 @@ export default function Page() {
           style={{ marginRight: 10 }}
         />
       </Link>
-      <Link style={{ fontWeight: '500', fontSize: 20 }} href={'/ProfileScreen'}>
-        My Bio
-        <Ionicons
-          name="arrow-forward"
-          size={20}
-          color="black"
-          style={{ marginRight: 10 }}
-        />
       </Link>
       <Link style={{ fontWeight: '500', fontSize: 20 }} href={'/ProfileScreen3'}>
-        New Bio
+        My Bio
         <Ionicons
           name="arrow-forward"
           size={20}
@@ -71,6 +85,7 @@ export default function Page() {
         renderItem={({ item }) => <UserCard user={item} />}
         showsVerticalScrollIndicator={false}
       />
+    </View>
     </View>
     );
 }
