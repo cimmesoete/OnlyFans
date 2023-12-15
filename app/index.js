@@ -60,7 +60,7 @@ export default function Page() {
           style={{ marginRight: 10 }}
         />
       </Link>
-      </Link>
+
       <Link style={{ fontWeight: '500', fontSize: 20 }} href={'/ProfileScreen3'}>
         My Bio
         <Ionicons
