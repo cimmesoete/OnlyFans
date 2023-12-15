@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { DataStore } from "aws-amplify/lib-esm";
 import { User } from "../src/models";
 import { Ionicons } from '@expo/vector-icons';
-import { ProfileUpdateScreen } from "./ProfileUpdateScreen";
+// import { ProfileScreenUpdater } from "./ProfileScreen2";
 import { useNavigation } from "@react-navigation/native";
 
 //
@@ -47,8 +47,7 @@ export default function Page() {
           style={{ marginRight: 10 }}
         />
       </Link>
-      <Text style={{ fontWeight: '500', fontSize: 20 }} onPress={() => 
-        navigation.navigate('ProfileUpdateScreen', { user: user })}>
+      <Link style={{ fontWeight: '500', fontSize: 20 }} href={'/ProfileScreen3'}>
         New Bio
         <Ionicons
           name="arrow-forward"
@@ -56,7 +55,7 @@ export default function Page() {
           color="black"
           style={{ marginRight: 10 }}
         />
-      </Text>
+      </Link>
       <Text style={{ fontWeight: '500', fontSize: 20 }} onPress={() => signOut()}>
         Sign out
         <Ionicons

@@ -8,16 +8,23 @@ import { Storage } from 'aws-amplify';
 export default function UserCard({ user }) {
 
   const [avatarUri, setAvatarUri] = useState();
+  const [backgroundImageUri, setbackgroundImageUri] = useState();
 
   useEffect(() => {
     Storage.get(user.avatar).then(setAvatarUri);
   }, []);
 
+  useEffect(() => {
+    Storage.get(user.coverImage).then(setbackgroundImageUri);
+  }, []);
+
+//    console.log('function UserCard background image:', backgroundImageUri);
+
   return (
 
      <Link href={`/user/${user.id}`} asChild>
       <Pressable>
-        <ImageBackground source={{ uri: user.coverImage }} style={styles.userCard} >
+        <ImageBackground src={{ uri: backgroundImageUri }} style={styles.userCard} >
           <View style={styles.overlay} />
           {/* Image */}
           <Image src={avatarUri} style={styles.userImage} />

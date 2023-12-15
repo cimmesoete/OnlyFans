@@ -17,15 +17,19 @@ import { DataStore, Storage } from 'aws-amplify';
 const UserProfileHeader = ({ user, isSubscribed, setIsSubscribed }) => {
     const router = useRouter();
     const [avatarUri, setAvatarUri] = useState();
-
+    const [backgroundImageUri, setbackgroundImageUri] = useState();
     
     useEffect(() => {
         Storage.get(user.avatar).then(setAvatarUri);
       }, []);
+      
+    useEffect(() => {
+        Storage.get(user.coverImage).then(setbackgroundImageUri);
+    }, []);
 
     return (
         <View>
-            <ImageBackground source={{ uri: user.coverImage }} style={styles.cover}>
+            <ImageBackground source={{ uri: backgroundImageUri }} style={styles.cover}>
                 <View style={styles.overlay} />
 
                 <SafeAreaView style={{ marginHorizontal: 10, flexDirection: 'row', alignItems: 'center' }}>

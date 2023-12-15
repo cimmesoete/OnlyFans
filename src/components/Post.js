@@ -21,7 +21,7 @@ const Post = ({ post }) => {
   const [likes, setLikes] = useState(post.likes || 0);
   const videoMovie = React.useRef(null);
   const [status, setStatus] = React.useState({});
-  // const imageAddress = post.imageAddress;
+  const [likeColor, setLikeColor] = useState(false);
 
   useEffect(() => {
     DataStore.query(User, post.userID, 
@@ -50,6 +50,7 @@ const Post = ({ post }) => {
       );
 
       setLikes(updatedLikes);
+      setLikeColor(!likeColor);
     } catch (error) {
       console.error('Error updating post:', error);
     }
@@ -115,13 +116,12 @@ const Post = ({ post }) => {
         </Pressable>
       )}
 
-
       <View style={{ margin: 10, flexDirection: 'row' }}>
         <Pressable onPress={handleLike}>
           <AntDesign
-            name="hearto"
+            name={likeColor ? 'heart' : 'hearto'}
             size={22}
-            color="gray"
+            color={likeColor ? 'red' : 'gray'}
             style={{ marginRight: 15 }}
           />
         </Pressable>

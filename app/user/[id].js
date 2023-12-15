@@ -7,7 +7,7 @@ import UserProfileHeader from "../../src/components/UserProfileHeader";
 // import posts from "../../assets/data/posts";
 import Post from "../../src/components/Post";
 import { FontAwesome5 } from '@expo/vector-icons';
-import { DataStore } from "aws-amplify/lib-esm";
+import { DataStore, SortDirection } from "aws-amplify/lib-esm";
 // import { DataStore } from "aws-amplify";
 import { User, Post as PostModel } from "../../src/models";
 
@@ -18,9 +18,13 @@ const ProfilePage = () => {
 
     const { id } = useLocalSearchParams();
 
+//  query the table User for user ID, set constant user
+//  query the table Post (here called PostModel to avoid conflict) to collect posts matching user,     
+//  sort by updatedAt date, set constant posts to that array
     useEffect(() => {
         DataStore.query(User, id).then(setUser);
-        DataStore.query(PostModel, (post) => post.userID.eq(id)).then(setPosts);
+        DataStore.query(PostModel, (post) => post.userID.eq(id), { sort: (s) => s.updatedAt(SortDirection.DESCENDING) }
+        ).then(setPosts);
     }, [id]);
 
 //    const user = users.find((u) => u.id == id);
