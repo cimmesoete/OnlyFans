@@ -5,13 +5,11 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, SafeAreaView, Button, Image, ScrollView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Storage, Auth, DataStore } from 'aws-amplify';
-// import { UserData } from '../src/models';
 import { useAuthenticator } from '@aws-amplify/ui-react-native';
 import { useRouter, Link } from 'expo-router';
 import * as Crypto from 'expo-crypto';
 import { Ionicons } from '@expo/vector-icons';
 import { User } from '../src/models';
-
 
 const ProfileScreenUpdater = () => {
   const [dummyState, setDummyState] = useState(0);
@@ -19,21 +17,23 @@ const ProfileScreenUpdater = () => {
   const [name, setName] = useState('');
   const [handle, setHandle] = useState('');
   const [bio, setBio] = useState('');
+  const [avatar, setAvatar] = useState('');
   const [avatarUri, setAvatarUri] = useState();
-  const [avatar, setAvatar] = useState();
-  const [backgroundImage, setBackgroundImage] = useState();
+  const [newAvatar, setNewAvatar] = useState(false);
+  const [backgroundImage, setBackgroundImage] = useState('');
   const [backgroundImageUri, setBackgroundImageUri] = useState();
+  const [newBackgroundImage, setNewBackgroundImage] = useState(false);
   const [subscriptionPrice, setSubscriptionPrice] = useState();
-
   const [userId, setUserId] = useState('');
-
   const { user } = useAuthenticator();
-
   const router = useRouter();
 
+  // useEffect(() => {
+    DataStore.query(User, user.attributes.sub, ).then(setUser);
+  // }, []);
 
   useEffect(() => {
-    DataStore.query(User, user.attributes.sub, ).then(setUser);
+    setUserId(user.attributes.sub);
     setName(thisUser?.name);
     setHandle(thisUser?.handle);
     setBio(thisUser?.bio);   
@@ -42,40 +42,49 @@ const ProfileScreenUpdater = () => {
     setSubscriptionPrice(thisUser?.subscriptionPrice);
   }, []);
 
-/*  async function getUserProfile(userId){
-    const userProfile = await DataStore.query(User, userId);
-    return userProfile;
-  };
-*/
+  console.log("This User Name: ", thisUser?.name);
+  console.log("This User HANDLE: ", thisUser?.handle);
+  console.log("This User Bio:", thisUser?.bio);
+  console.log("This User Avatar: ", thisUser?.avatar);
+  console.log("This User Background: ", thisUser?.backgroundImage);
+  console.log("This User Price: ", thisUser?.subscriptionPrice);
+  console.log("This User UID: ", userId);
+  console.log("This User thisuser: ", thisUser);
 
-//  getUserProfile(user.attributes.sub);
-//    const usersProfile = getUserProfile(user.attributes.sub);
+  console.log("Name: ", name);
+  console.log("HANDLE: ", handle);
+  console.log("Bio:", bio);
+  console.log("Avatar: ", avatar);
+  console.log("Background: ", backgroundImage);
+  console.log("Price: ", subscriptionPrice);
+  console.log("UID: ", userId);
+  console.log("thisuser: ", thisUser);
 
   useEffect(() => {
     Storage.get(thisUser?.avatar).then(setAvatarUri);
     Storage.get(thisUser?.coverImage).then(setBackgroundImageUri);
   }, []);
 
-
 //  console.log('function getUserProfile user profile name:', thisUser?.name);
-//  console.log('function getUserProfile background image:', backgroundImageUri);
-//  console.log('function getUserProfile user profile bio:', bio);
 
+// Upload image or video asset to the s3 storage container    
+    async function uploadImage(selectedImage, avatarOrBackground) {
+      try {
+        let fileKey;
+        const response = await fetch(selectedImage);
+        const blob = await response.blob();
+        if (avatarOrBackground === 'avatar') {
+            fileKey = `avatars/${userId}/${Crypto.randomUUID()}.png`;
+        } else if (avatarOrBackground === 'background') {
+            fileKey = `backgrounds/${userId}/${Crypto.randomUUID()}.png`;
+        };
+        await Storage.put(fileKey, blob,);
+        return fileKey;
+      } catch (err) {
+        console.log('Yup, Error uploading file:', err, "filekey:", fileKey);
+      }
+    } 
 
-  /*
-  useEffect(() => {
-    // Get user profile data from DataStore
-    DataStore.query(UserData, userId)
-      .then(user => {
-        setAvatar(user.avatar);
-        setBackgroundImage(user.backgroundImage);
-        setBio(user.bio);
-      })
-      .catch(error => console.error('Error getting user profile:', error));
-  }
-  
-
-//  console.log('User:', user);
   const pickImage = async (type) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -85,64 +94,60 @@ const ProfileScreenUpdater = () => {
 
     if (!result.canceled) {
       if (type === 'avatar') {
-        setAvatar(result.assets[0].uri);
+        setAvatarUri(result.assets[0].uri);
+        setNewAvatar(true);
       } else if (type === 'background') {
-        setBackgroundImage(result.assets[0].uri);
+        setBackgroundImageUri(result.assets[0].uri);
+        setNewBackgroundImage(true);
       }
     }
   };
 
 
-  const saveProfile = async () => {
-    // Upload images to S3
-    const avatarKey = `avatars/${userId}/${Date.now()}-avatar.jpg`;
-    await Storage.put(avatarKey, avatar, { contentType: 'image/jpeg' });
-
-    const backgroundImageKey = `backgrounds/${userId}/${Date.now()}-background.jpg`;
-    await Storage.put(backgroundImageKey, backgroundImage, { contentType: 'image/jpeg' });
-
-    // Update user profile in the DataStore
-    try {
-      await DataStore.save(
-        UserData.copyOf(user => {
-          user.id = userId;
-          user.avatar = avatarKey;
-          user.backgroundImage = backgroundImageKey;
-          user.bio = bio;
-        })
-      );
-      console.log('Profile updated successfully!');
-    } catch (error) {
-      console.error('Error updating profile:', error);
-    }
-  };
-*/
     const onPost = async () => {
-      // console.warn('Post: ', text);
-    //  const imageKey = await uploadImage();
-    //    const subPrice = Number(subscriptionPrice);
+        // if avatar has been changed, call uploadImage to store avatar, set avatarUri to avatarKey
+        if (newAvatar) {
+          const avatarKey = uploadImage(avatarUri, 'avatar');
+          setAvatar(avatarKey);
+        };   
+
+        // if background image has been changed, call uploadImage to store
+        if (newBackgroundImage) {
+          const backgroundImageKey = uploadImage(backgroundImageUri, 'background');
+          setBackgroundImage(backgroundImageKey);
+       };
 
       // post entry to POST table in database
+      console.log("Name: ", name);
+      console.log("HANDLE: ", handle);
+      console.log("Bio:", bio);
+      console.log("Avatar: ", avatar);
+      console.log("Background: ", backgroundImage);
+      console.log("Price: ", subscriptionPrice);
+      console.log("UID: ", userId);
+      console.log("thisuser: ", thisUser);
       await DataStore.save(
         User.copyOf(thisUser, updated => { 
             updated.name = name,
             updated.handle = handle,
             updated.bio = bio,
-            updated.subscriptionPrice = subscriptionPrice
-            //
-            //
-            //
-
+            updated.subscriptionPrice = subscriptionPrice,
+            updated.avatar = avatar,
+            updated.coverImage = backgroundImage
         })
       );
-  
 //      setText('');
 //      setImage('');
 //      setImageType('');
+        setName('');
+        setHandle('');
+        setBio('');   
+        setAvatar(); 
+        setBackgroundImage();
+        setSubscriptionPrice();
       <Text style={{ fontWeight: '500', marginHorizontal: 10 }}> Profile Updated </Text>;
       setDummyState(Date.now());
     };
-
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true} keyboardShouldPersistTaps="handled">
@@ -160,12 +165,14 @@ const ProfileScreenUpdater = () => {
 
             <View>
                 <Text>Avatar</Text>
+                <Button title="Change Avatar" onPress={() => pickImage('avatar')} />
                 <View style={styles.container}>
                     {avatarUri && <Image src={avatarUri} style={styles.userImage} />}
                 </View>
             </View>
             <View>
                 <Text>Background Image</Text>
+                <Button title="Change Background Image" onPress={() => pickImage('background')} />
                 <View style={styles.container}>
                     {backgroundImageUri && <Image src={backgroundImageUri} style={styles.backImage} />}
                 </View>
@@ -173,7 +180,7 @@ const ProfileScreenUpdater = () => {
             </View>
             <Text style={styles.titleText}>  Name</Text>
             <TextInput
-                placeholder={thisUser?.name}
+                placeholder={name}
                 placeholderTextColor={'blue'}
                 value={name}
                 onChangeText={setName}
@@ -203,7 +210,6 @@ const ProfileScreenUpdater = () => {
                 value={subscriptionPrice}
                 onChangeText={textValue => setSubscriptionPrice(Number(textValue))}
                 keyboardType='numeric'
-                // textAlign='right'
             />
             <Button title="Update" onPress={onPost} />
         </SafeAreaView>
@@ -229,11 +235,6 @@ const styles = StyleSheet.create({
   },
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
-   // position: 'absolute',
-   // top: 0,
-   // bottom: 0,
-   // left: 0,
-   // right: 0,
    ...StyleSheet.absoluteFillObject,
   },
   userImage: {
