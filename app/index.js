@@ -34,7 +34,7 @@ export default function Page() {
         break;
       case 'bio':
         // Handle "Bio" action
-        <Link style={{ fontWeight: '500', fontSize: 20 }} href={'/ProfileScreen3'}/>;
+        <Link style={{ fontWeight: '500', fontSize: 20 }} href={'/ProfileScreen4'}/>;
         break;
       case 'signOut':
         // Handle "Sign Out" action
@@ -61,7 +61,7 @@ export default function Page() {
         />
       </Link>
 
-      <Link style={{ fontWeight: '500', fontSize: 20 }} href={'/ProfileScreen3'}>
+      <Link style={{ fontWeight: '500', fontSize: 20 }} href={'/ProfileScreen4'}>
         My Bio
         <Ionicons
           name="arrow-forward"

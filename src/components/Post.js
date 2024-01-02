@@ -24,9 +24,7 @@ const Post = ({ post }) => {
   const [likeColor, setLikeColor] = useState(false);
 
   useEffect(() => {
-    DataStore.query(User, post.userID, 
-//      { sort: (s) => s.updatedAt(SortDirection.DESCENDING) }   //NEED TO ADDRESS THIS
-    ).then(setUser);
+    DataStore.query(User, post.userID,).then(setUser);
   }, []);
 
   useEffect(() => {
@@ -45,8 +43,7 @@ const Post = ({ post }) => {
     const diff = now.getTime() - updatedDate.getTime();
     const diffDays = Math.round(diff / (1000 * 60 * 60 * 24));
     return diffDays;
-  
-  };
+    };
 
                                         // Increment likes
   const handleLike = async () => {

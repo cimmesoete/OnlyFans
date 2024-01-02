@@ -27,22 +27,35 @@ const ProfileScreenUpdater = () => {
     const [userId, setUserId] = useState('');
     const { user } = useAuthenticator();
     const router = useRouter();
-/*
+
+
     useEffect(() => {
-        DataStore.query(User, user.attributes.sub, ).then(setUser);
-    }, []);
-*/
+      DataStore.query(User, user.attributes.sub).then(setUser);
+//      console.log("Fetched User: ", thisUser);
+//      setName(thisUser?.name);
+//      console.log("Fetched Name: ", name);
+  }, []);
+
+
+
+/*
     useEffect(() => {
         const fetchdUser = async () => {
             try {
                 const selectedUser = await DataStore.query(User, user.attributes.sub);
                 setUser(selectedUser);
+                setName(thisUser?.name);
+                console.log("Fetched User: ", thisUser);
+                console.log("Fetched Name: ", name);
             } catch (error) {   
                 console.log('Error fetching user:', error);
             }
         }
         fetchdUser();
+        console.log("Fetched User Name: ", thisUser?.name);
+
     }, []);
+*/
 
 
     useEffect(() => {
@@ -54,17 +67,17 @@ const ProfileScreenUpdater = () => {
         setAvatar(thisUser?.avatar); 
         setBackgroundImage(thisUser?.coverImage);
         setSubscriptionPrice(thisUser?.subscriptionPrice);
-//        console.log("Name: ", name);
-//        console.log("HANDLE: ", handle);
-//        console.log("Bio:", bio);
-//        console.log("Avatar: ", avatar);
-//        console.log("Background: ", backgroundImage);
-//        console.log("Price: ", subscriptionPrice);
-//        console.log("UID: ", userId);
-//        console.log("thisuser: ", thisUser);
+        console.log("Set Name: ", name);
+        console.log("Set HANDLE: ", handle);
+        console.log("Set Bio:", bio);
+        console.log("Set Avatar: ", avatar);
+        console.log("Set Background: ", backgroundImage);
+        console.log("Set Price: ", subscriptionPrice);
+        console.log("UID: ", userId);
+        console.log("thisuser: ", thisUser);
     }, []);
 
-
+/*
   console.log("This User Name: ", thisUser?.name);
   console.log("This User HANDLE: ", thisUser?.handle);
   console.log("This User Bio:", thisUser?.bio);
@@ -73,14 +86,14 @@ const ProfileScreenUpdater = () => {
   console.log("This User Price: ", thisUser?.subscriptionPrice);
   console.log("This User UID: ", userId);
   console.log("This User thisuser: ", thisUser);
-
+*/
 
 
   useEffect(() => {
-    Storage.get(avatar).then(setAvatarUri);
-    Storage.get(backgroundImage).then(setBackgroundImageUri);
+    Storage.get(thisUser?.avatar).then(setAvatarUri);
+    Storage.get(thisUser?.coverImage).then(setBackgroundImageUri);
   }, []);
-  
+
 //  console.log('function getUserProfile user profile name:', thisUser?.name);
 
 // Upload image or video asset to the s3 storage container    
@@ -120,53 +133,50 @@ const ProfileScreenUpdater = () => {
   };
 
 
-    const onPost = async () => {
-        // if avatar has been changed, call uploadImage to store avatar, set avatarUri to avatarKey
-        if (newAvatar) {
-          const avatarKey = await uploadImage(avatarUri, 'avatar');
-          setAvatar(avatarKey);
-        };   
+  const onPost = async () => {
+      // if avatar has been changed, call uploadImage to store avatar, set avatarUri to avatarKey
+      if (newAvatar) {
+        const avatarKey = uploadImage(avatarUri, 'avatar');
+        setAvatar(avatarKey);
+      };   
 
-        // if background image has been changed, call uploadImage to store
-        if (newBackgroundImage) {
-          const backgroundImageKey = await uploadImage(backgroundImageUri, 'background');
-          setBackgroundImage(backgroundImageKey);
-          console.log("New Background: ", backgroundImage);
-       };
+      // if background image has been changed, call uploadImage to store
+      if (newBackgroundImage) {
+        const backgroundImageKey = uploadImage(backgroundImageUri, 'background');
+        setBackgroundImage(backgroundImageKey);
+      };
 
-
-      // post entry to POST table in database
-      console.log("Name: ", name);
-      console.log("HANDLE: ", handle);
-      console.log("Bio:", bio);
-      console.log("Avatar: ", avatar);
-      console.log("Background: ", backgroundImage);
-      console.log("Price: ", subscriptionPrice);
-      console.log("UID: ", userId);
-      console.log("thisuser: ", thisUser);
-      await DataStore.save(
-        User.copyOf(thisUser, updated => { 
-            updated.name = name,
-            updated.handle = handle,
-            updated.bio = bio,
-            updated.subscriptionPrice = subscriptionPrice,
-            updated.avatar = avatar,
-            updated.coverImage = backgroundImage
-        })
-      );
-
+    // post entry to User table in database
+    console.log("Update Name: ", name);
+    console.log("Update HANDLE: ", handle);
+    console.log("Update Bio:", bio);
+    console.log("Update Avatar: ", avatar);
+    console.log("Update Background: ", backgroundImage);
+    console.log("Update Price: ", subscriptionPrice);
+    console.log("UID: ", userId);
+    console.log("thisuser: ", thisUser);
+    await DataStore.save(
+      User.copyOf(thisUser, updated => { 
+          updated.name = name,
+          updated.handle = handle,
+          updated.bio = bio,
+          updated.subscriptionPrice = subscriptionPrice,
+          updated.avatar = avatar,
+          updated.coverImage = backgroundImage
+      })
+    );
 //      setText('');
 //      setImage('');
 //      setImageType('');
-        setName('');
-        setHandle('');
-        setBio('');   
-        setAvatar(); 
-        setBackgroundImage();
-        setSubscriptionPrice();
-      <Text style={{ fontWeight: '500', marginHorizontal: 10 }}> Profile Updated </Text>;
-      setDummyState(Date.now());
-    };
+    setName('');
+    setHandle('');
+    setBio('');   
+    setAvatar(''); 
+    setBackgroundImage('');
+    setSubscriptionPrice();
+    <Text style={{ fontWeight: '500', marginHorizontal: 10 }}> Profile Updated </Text>;
+    setDummyState(Date.now());
+  };
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true} keyboardShouldPersistTaps="handled">
@@ -189,15 +199,14 @@ const ProfileScreenUpdater = () => {
                     {avatarUri && <Image src={avatarUri} style={styles.userImage} />}
                 </View>
             </View>
-
             <View>
                 <Text>Background Image</Text>
                 <Button title="Change Background Image" onPress={() => pickImage('background')} />
                 <View style={styles.container}>
                     {backgroundImageUri && <Image src={backgroundImageUri} style={styles.backImage} />}
                 </View>
-            </View>
 
+            </View>
             <Text style={styles.titleText}>  Name</Text>
             <TextInput
                 placeholder={name}
