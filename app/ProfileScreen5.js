@@ -1,3 +1,4 @@
+/*
 // from ChatGPT 4 on Bing
 
 import React, { useState, useEffect } from 'react';
@@ -90,3 +91,5 @@ const styles = StyleSheet.create({
 });
 
 export default UserScreen;
+*/
+
